@@ -1,11 +1,5 @@
 {
 	"version": "2.0.0",
-	"runner": "terminal",
-	"type": "shell",
-	"echoCommand": true,
-	"presentation": {
-		"reveal": "always"
-	},
 	"tasks": [ //C++ 컴파일
 		{
 			"label": "save and compile for C++",
@@ -17,8 +11,6 @@
 				"${fileDirname}/${fileBasenameNoExtension}"
 			],
 			"group": "build",
-			//컴파일시 에러를 편집기에 반영
-			//참고:   https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
 			"problemMatcher": {
 				"fileLocation": [
 					"relative",
@@ -41,13 +33,22 @@
 			"label": "save and compile for C",
 			"command": "gcc",
 			"args": [
+				"-lm",
+				"-Wextra", // for 42 school
+				"-Wall",
+				"-Werror",
+				"-g",
 				"${file}",
 				"-o",
-				"${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/a.out"
 			],
-			"group": "build",
-			//컴파일시 에러를 편집기에 반영
-			//참고:   https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
+			"options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
 			"problemMatcher": {
 				"fileLocation": [
 					"relative",
@@ -64,21 +65,6 @@
 					"message": 5
 				}
 			}
-		},
-		// 바이너리 실행(Ubuntu)
-		{
-			"label": "execute",
-			"command": "cd ${fileDirname} && ./${fileBasenameNoExtension}",
-			"group": "test"
 		}
-		// // 바이너리 실행(Windows)
-		// {
-		//     "label": "execute",
-		//     "command": "cmd",
-		//     "group": "test",
-		//     "args": [
-		//         "/C", "${fileDirname}\\${fileBasenameNoExtension}"
-		//     ]
-		// }
 	]
 }
